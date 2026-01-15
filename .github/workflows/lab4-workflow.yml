@@ -7,17 +7,22 @@ on:
 jobs:
     npm-package:
       runs-on: ubuntu-latest
+      permissions: 
+        packages: write
       steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
 
         - name: install/set up NodeJS
           uses: actions/setup-node@v4
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             node-version: '20.x'
             registry-url: 'https://npm.pkg.github.com/'
         
         - name: Install the npm dependencies
           run: npm install
+
+        - name: Publish npm dependencie
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          run: npm publish
